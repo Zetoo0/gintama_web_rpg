@@ -1,0 +1,23 @@
+{
+    "login_informations" : 
+    {
+        "login_name" : "blablah",
+        "login_pw" : "bababa"
+    },
+    "character_informations" : 
+    {
+        "name" : "balahahaha",
+        "gender" : "robot",
+        "race" : "yato",
+        "level" : 0,
+        "family" : "Otose-Snack"
+    },
+    "equipment" : 
+    {
+        "gadget" : "some gadget or none",
+        "accessory" : "some accessory or none",
+        "weapon" : "some weapon or none",
+        "clothing" : "some clothing or none"
+    },
+    "inventory" : []
+}
