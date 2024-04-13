@@ -4,7 +4,6 @@ from pydantic_core import CoreSchema
 from bson import ObjectId
 from .object_id import PydanticObjectId
 from typing import List,Optional,Union,Any,Dict
-
 class Character(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -29,12 +28,6 @@ class LoginInformation(BaseModel):
     login_name:str
     login_pw:str
 
-class Equipment(BaseModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
-    gadget:str
-    accessory:str
-    weapon:str
-    clothing:str
 
 
 class UserCharacter(BaseModel):
@@ -66,6 +59,14 @@ class Item(BaseModel):
             data.pop("_id",None)
         return data
     
+class Equipment(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    gadget:Item
+    accessory:Item
+    weapon:Item
+    clothing:Item
+
+
 class User(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -73,8 +74,8 @@ class User(BaseModel):
     login_informations:LoginInformation
     character_informations: UserCharacter
     equipment : Equipment
-    inventory: List[Item]
-
+    inventory: List[ObjectId]
+    yen:int
     def to_json(self):
         return jsonable_encoder(self,exclude_none=True)
     def to_bson(self):
@@ -83,6 +84,22 @@ class User(BaseModel):
             data.pop("_id",None)
         return data
 
+class UserAnother(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    _id:ObjectId
+    login_informations:LoginInformation
+    character_informations: UserCharacter
+    equipment : Equipment
+    inventory: List[Item]
+    yen:int
+    def to_json(self):
+        return jsonable_encoder(self,exclude_none=True)
+    def to_bson(self):
+        data = self.dict(by_alias=True,exclude_none=True)
+        if data.get("_id") is None:
+            data.pop("_id",None)
+        return data
 
 class Job(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
