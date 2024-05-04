@@ -1,0 +1,61 @@
+.profile {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+     border: 1px solid #ccc;
+    border-radius: 8px;
+    height: auto;
+  }
+
+  .p:hover{
+    cursor: pointer;
+  }
+
+  .backall{
+    background:black;
+  }
+  
+  
+  .playerInfo {
+    color: white;
+    margin-bottom: 20px;
+  }
+  
+  .inventory,
+  .equipment {
+    color: white;
+    margin-top: 20px;
+  }
+  
+  .inventory img,
+  .equipment img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .itemDetails {
+    color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 20px;
+  }
+  
+  .itemDetails h2 {
+    color: white;
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .itemDetails p {
+    color: white;
+    margin: 5px 0;
+  }
+  
+  .itemDetails strong {
+    color: white;
+    font-weight: bold;
+  }
+
+  .title{
+    color:white;
+  }

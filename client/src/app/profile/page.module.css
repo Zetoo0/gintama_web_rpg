@@ -1,0 +1,10 @@
+.centeredMenu {
+    border: 2px solid white; /* Fehér keret */
+    border-radius: 8px; /* Kerekített sarkok */
+    padding: 20px; /* Belső térköz */
+    text-align: center; /* Tartalom középre igazítása */
+    margin: 20px auto; /* Középre igazítás */
+    max-width: 800px; /* Maximális szélesség */
+    /*max-height: 600px;*/
+    height: auto;
+  }

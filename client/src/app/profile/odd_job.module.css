@@ -1,0 +1,56 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    color: white;
+    border-radius: 10px;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .jobList {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    color: white;
+    max-height: 500px;
+  }
+  
+  .job {
+    color: white;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: calc(50% - 10px); /* Fél szélességű elemek, egy kis térközzel */
+    position: relative; /* Relatív pozícionálás a gyerekek abszolút pozícionálásához */
+  }
+  
+  .table {
+    color: white;
+    position: absolute;
+    bottom: -20px; /* Asztal elmozdítása a személy alatt */
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+  }
+  
+  .jobDetails {
+    color: white;
+    flex: 1;
+  }
+  
+  .jobImage {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 5px;
+  }
+  
