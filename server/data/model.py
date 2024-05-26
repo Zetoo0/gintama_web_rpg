@@ -61,10 +61,10 @@ class Item(BaseModel):
     
 class Equipment(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
-    gadget:Item
-    accessory:Item
-    weapon:Item
-    clothing:Item
+    gadget:Union[Item,str]
+    accessory:Union[Item,str]
+    weapon:Union[Item,str]
+    clothing:Union[Item,str]
 
 
 class User(BaseModel):
@@ -88,7 +88,7 @@ class UserAnother(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
     _id:ObjectId
-    login_informations:LoginInformation
+    login_informations:LoginInformation 
     character_informations: UserCharacter
     equipment : Equipment
     inventory: List[Item]
@@ -101,20 +101,7 @@ class UserAnother(BaseModel):
             data.pop("_id",None)
         return data
 
-class Job(BaseModel):
-    model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    _id:ObjectId
-    job_name:str
-    quest_giver:str
-    description:str
-    def to_json(self):
-        return jsonable_encoder(self,exclude_none=True)
-    def to_bson(self):
-        data = self.dict(by_alias=True,exclude_none=True)
-        if data.get("_id") is None:
-            data.pop("_id",None)
-        return data
 class JobEnemies(BaseModel):
     model_config = ConfigDict(arbitrary_types_allowed=True)
 
@@ -158,3 +145,48 @@ class ItemType(BaseModel):
         if data.get("_id") is None:
             data.pop("_id",None)
         return data
+    
+class NPCCharacter(BaseModel):
+    model_config = ConfigDict(arbitryry_types_allowed=True)
+    
+    _id:ObjectId
+    family_name:str
+    character_name:str
+    gender:str
+    race:str
+    description:str
+    def to_json(self):
+        return jsonable_encoder(self,exclude_none=True)
+    def to_bson(self):
+        data = self.dict(by_alias=True,exclude_none=True)
+        if data.get("_id") is None:
+            data.pop("_id",None)
+        return data 
+
+class Job(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
+    _id:ObjectId
+    job_name:str
+    quest_giver:Optional[NPCCharacter]
+    description:str
+    reward:Item | int
+    job_enemies : List[JobEnemies]
+    def to_json(self):
+        return jsonable_encoder(self,exclude_none=True)
+    def to_bson(self):
+        data = self.dict(by_alias=True,exclude_none=True)
+        if data.get("_id") is None:
+            data.pop("_id",None)
+        return data 
+class AllJob(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+    all_job:List[Job]
+    
+    def to_json(self):
+        return jsonable_encoder(self,exclude_none=True)
+    def to_bson(self):
+        data = self.dict(by_alias=True,exclude_none=True)
+        if data.get("_id") is None:
+            data.pop("_id",None)
+        return data 

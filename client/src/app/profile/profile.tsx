@@ -1,7 +1,7 @@
 import { FC , useState } from 'react';
 import styles from './profile.module.css';
 import Item from "../Item";
-import {Player} from "../Player";
+import { Player, Equipment } from '../Player';
 import { Router } from 'next/router';
 import {usePlayer} from "../mostmar_valami_tenyleg";
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
@@ -129,27 +129,42 @@ const equip = async (player:Player, item:Item) => {
       <div className={styles.inventory}>
         <h2>Inventory</h2>
         <ul>
-        {player?.inventory.map((item, index) => (
-            <li key={index} onClick={() => onItemFocus(item,false)}>
-              <p className={styles.p}>{item.Item_Name}</p>
-            </li>
+          <li>
+            {player?.inventory.map((item, index) => (
+                  <p className={styles.p} key={index} onClick={() => onItemFocus(item,false)}>{item.Item_Name}</p>
           ))}
-
+          </li>
         </ul>
       </div>
-      <div className={styles.equipment}>
+      <div className={styles.equipmentContainer}>
         <h2>Felszerelés</h2>
-        <ul>
-        {
-            <li>
-              <p className={styles.p} onClick={() => onItemFocus(player?.equipment.accessory,true)}>Accessory:{player?.equipment.accessory ? player?.equipment.accessory?.Item_Name : ""}</p>
-              <p className={styles.p} onClick={() => onItemFocus(player?.equipment.clothing,true)}>Clothing:{player?.equipment.clothing ? player?.equipment.clothing?.Item_Name : ""}</p>
-              <p className={styles.p} onClick={() => onItemFocus(player?.equipment.gadget,true)}>Gadget:{player?.equipment.gadget ? player.equipment.gadget?.Item_Name : ""}</p>
-              <p className={styles.p} onClick={() => onItemFocus(player?.equipment.weapon,true)}>Weapon:{player?.equipment.weapon ? player.equipment.weapon?.Item_Name : ""}</p>
-            </li>
-          }
-
-        </ul>
+        <div className={styles.equipment}>
+          <ul>
+          {
+              <li>
+                <p className={styles.p} onClick={() => onItemFocus(player?.equipment.accessory,true)}>Accessory:{player?.equipment.accessory ? player?.equipment.accessory?.Item_Name : ""}</p>
+                <p className={styles.p} onClick={() => onItemFocus(player?.equipment.clothing,true)}>Clothing:{player?.equipment.clothing ? player?.equipment.clothing?.Item_Name : ""}</p>
+                <p className={styles.p} onClick={() => onItemFocus(player?.equipment.gadget,true)}>Gadget:{player?.equipment.gadget ? player.equipment.gadget?.Item_Name : ""}</p>
+                <p className={styles.p} onClick={() => onItemFocus(player?.equipment.weapon,true)}>Weapon:{player?.equipment.weapon ? player.equipment.weapon?.Item_Name : ""}</p>
+              </li>
+            }
+          </ul>
+        </div>
+            <div className={styles.equipmentAscii}>
+          <pre>
+          {`
+          ______
+          | .. |
+        |  |_--_|     
+          /    \\   
+          |      |  
+          |______|  
+          |  ++  |  
+          |  ||  |  
+          |__||__|  
+          `}
+        </pre>
+        </div>
       </div>
       <div className={styles.itemDetails}>
         {

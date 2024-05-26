@@ -11,8 +11,11 @@ import LogRegPage from "../log";
 import App from '../App'
 import RootLayout from "../layout";
 import styles from "./page.module.css"
+import MinigamePage from "./minigame";
+import { MinigameType } from "../MinigameType";
 export default function ProfPage() {
   const [job,setJob] = useState<boolean>(false);
+  const [minigame,setMinigame] = useState<boolean>(true);
 
   const changeJob = () => {
     setJob(!job);
@@ -30,6 +33,13 @@ export default function ProfPage() {
                   <OddJobPage/>
                   </>
                 )}
+                {
+                 /* minigame && (
+                    <>
+                      <MinigamePage minigameType={MinigameType.minigame1}/>
+                    </>
+                  )*/
+                }
         </div>
 
       </main>

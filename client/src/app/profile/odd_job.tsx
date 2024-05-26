@@ -5,16 +5,31 @@ import { Player } from "../Player";
 import { usePlayer } from "../mostmar_valami_tenyleg";
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { Job } from './job';
+import { MinigameType } from '../MinigameType';
 
 interface OddJobProps {
   joblist: Job[];
 }
 
+interface MiniIngameProp{
+  isPlaying: boolean;
+  isWon: boolean;
+}
+
 const OddJob: FC<OddJobProps> = ({ joblist }) => {
+  const [info,setInfo] = useState<boolean>(false);  
+  const [infoJob, setInfoJob] = useState<Job | null>(null);
+  const [minigameInfo, setMinigameInfo] = useState<MiniIngameProp>({isPlaying: false, isWon: false});
+
   console.log("Jobs in odd_job_page: ", joblist);
 
   const acceptJob = (job : Job) => {
-    
+    console.log("Anyádra kattintottál: ",job.job_name);
+  }
+
+  const showInfo = (job : Job) => {
+    setInfoJob(job);
+    setInfo(!info);
   }
 
   return (
@@ -26,8 +41,10 @@ const OddJob: FC<OddJobProps> = ({ joblist }) => {
                 <p>{job.quest_giver.character_name}</p>
                 <p>{job.reward.toString()}</p>
                 <p>{job.job_enemies}</p>
-                <button>Accept</button>
+                <button onClick={() => acceptJob(job)}>Accept</button>
+                <button onClick={() => showInfo(job)}>Show</button>
             </div>
+
             <div className={styles.table}>
                 {/*
                 <pre>          {`
@@ -42,6 +59,17 @@ const OddJob: FC<OddJobProps> = ({ joblist }) => {
             </div>
         </div>
     ))}
+      <div>
+        {
+          info && (
+            <>
+              <p>Quest giver : {infoJob?.quest_giver.character_name}</p>
+              <p>Enemies : {infoJob?.job_enemies}</p>
+              <p>Reward : {infoJob?.reward.toString()}</p>
+            </>
+            )
+        }
+      </div>
 </div>
   );
 };

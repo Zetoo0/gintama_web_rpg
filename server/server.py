@@ -21,6 +21,8 @@ client = MongoClient('localhost',27017)
 db = client['ginta_ma']
 usr_repo = repository.UserRepository("mongodb://localhost:27017","ginta_ma")
 item_repo = repository.ItemRepository("mongodb://localhost:27017","ginta_ma")
+job_repo = repository.JobRepository("mongodb://localhost:27017","ginta_ma")
+npc_repo = repository.NPCCharacterRepository("mongodb://localhost:27017","ginta_ma")
 characters = db.Character
 items = db.Item
 users = db.User
@@ -100,12 +102,33 @@ def level_up_user(character_name):
     return {"Success" : True}
     #usr.update_one()
 
-@app.route("/user/<string:character_name>/removeitem/<string:item_name>")
-def delete_item_from_inventory(character_name,item_name):
-    item = items.find_one({"Item_Name" : item_name})
+#@app.route("/user/<string:character_name>/removeitem/<string:item_name>")
+"""def delete_item_from_inventory(character_name,item_name):
+    item = item_repo.find_by_name(item_name)
     usr = users.update_one({"character_informations.character_name" : character_name}, {"$pull" : {'inventory' : item['_id']}})
     return {"Success" : True}
+"""
+@app.route("/user/unequip",methods=['POST'])
+def unequip_item():
+    resp = request.get_json(force = True)
+    item_name = resp["item_name"]
+    character_name = resp["character_name"]
+    print("unequipping",character_name)
+    item = item_repo.find_by_name(item_name)
+    usr_repo.unequip(character_name,item['_id'],item["Category"])
+    return redirect("localhost:3000/profile")
+   # return {"Success" : True}
 
+@app.route("/user/equip",methods=['POST'])
+def equip_item():
+    resp = request.get_json(force = True)
+    item_name = resp["item_name"]
+    character_name = resp["character_name"]
+    print("equipping",character_name,item_name)
+    item = item_repo.find_by_name(item_name)
+    usr_repo.equip(character_name,item['_id'],item["Category"])
+    return redirect("localhost:3000/profile")
+    #return {"Success" : True}
 
 #add an item to the user inventory, 
 #find the item first then push into the inventory
@@ -135,11 +158,33 @@ def get_items_by_category(category):
 @app.route("/user/login", methods=['POST'])
 def login():
     resp = request.get_json(force = True)
-    print(resp)
-    #usr = users.find_one({"login_informations.login_name" : resp["username"]})
-   # if len(usr) != 0:
-      #  return {"Success" : True}
+    #print(resp)
+    usr = usr_repo.get_by_loginname(resp["userName"])
+    print(usr)
+    if len(usr) != 0:
+        for i,item_id in enumerate(usr['inventory']):
+            item = item_repo.get_by_id(ObjectId(item_id))
+            usr["inventory"][i] = item
+        for key,item_id in usr['equipment'].items():
+            if(item_id == ""):
+                usr["equipment"][key] = ""
+            else:
+                item = item_repo.get_by_id(ObjectId(item_id))
+                usr["equipment"][key] = item
+        #print(usr)
+        modeled = model.UserAnother(**usr).to_json()        
+        return modeled
     #return {"Success" : False}
+
+@app.route("/user/register", methods=['POST'])
+def register():
+    resp = request.get_json(force = True)
+    is_exist = usr_repo.get_by_loginname(resp["userName"])
+    print(is_exist)
+    if is_exist is None:
+        print("YIPEEEE")
+        usr_repo.register(resp["userName"],resp["password"]) 
+    return {"Succ" : "ass"}
 
 @app.route("/item")
 def all_item():
@@ -150,6 +195,29 @@ def all_item():
         arr.append(i)
     return jsonify({'items' : arr})
 
+@app.route("/jobs")
+def all_job():
+    resp = job_repo.find_all()
+    arr = []
+    for job in resp:
+        currGiver = npc_repo.get_by_name(job["quest_giver"])
+        job["quest_giver"] = model.NPCCharacter(**currGiver).to_json()
+        arr.append(model.Job(**job).to_json())
+    print(resp)    
+    test_all_job = model.AllJob(all_job=arr)
+    print(test_all_job.all_job)
+    return test_all_job.to_json() #jsonify({"jobs" : arr})
+
+@app.route("/random_job")
+def random_job():
+    resp = job_repo.get_random_job()
+    arr = []
+    for job in resp:
+        currGiver = npc_repo.get_by_name(job["quest_giver"])
+        job["quest_giver"] = model.NPCCharacter(**currGiver).to_json()
+        arr.append(model.Job(**job).to_json())
+    test_all_job = model.AllJob(all_job=arr)
+    return test_all_job.to_json() #jsonify({"jobs" : arr})
 
 if __name__ == "__main__":
     app.run(debug=True,port=8080)   
