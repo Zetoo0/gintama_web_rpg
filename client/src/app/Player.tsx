@@ -19,6 +19,7 @@ export interface CharacterInformations{
     level:number;
     family:string;
     character_name:string; 
+    inteligence:number;
   }
   
 export interface Player {

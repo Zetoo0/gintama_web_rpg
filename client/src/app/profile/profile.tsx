@@ -155,7 +155,7 @@ const equip = async (player:Player, item:Item) => {
           {`
           ______
           | .. |
-        |  |_--_|     
+          |_--_|     
           /    \\   
           |      |  
           |______|  

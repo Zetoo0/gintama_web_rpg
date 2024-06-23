@@ -4,6 +4,7 @@ import Profile from './profile';
 import Item from "../Item";
 import {Player} from "../Player";
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 /*interface Equipment{
   gadget:Item
   accessory:Item
@@ -37,6 +38,9 @@ const ProfilePage: FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
+  const ChangeProfilePlayerSession = () => {
+      sessionStorage.setItem('player', JSON.stringify(playerData));
+  }
 
   useEffect(() => {
     const fetchPlayerData = async () => {
@@ -61,6 +65,9 @@ const ProfilePage: FC = () => {
       ) : (
         <p>Loading...</p>
       )}
+      <Link href={"/odd_job"}>
+        <button onClick={ChangeProfilePlayerSession}>Odd Job</button>
+      </Link>
     </div>
   );
 };

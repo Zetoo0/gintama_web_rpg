@@ -27,16 +27,9 @@ const LogRegPage: FC = () => {
 
             if(response.ok){
                 const data = await response.json();
-              //  console.log(data)
                 const myJsonDat:Player = data as Player;
-             //   console.log("Májas json data: ", myJsonDat.character_informations);
                 sessionStorage.setItem('player', JSON.stringify(myJsonDat));
-             // setPlayer(myJsonDat);
-              //   console.log(player);
-           //     //console.log(usePlayer().player?._id);
-                // localStorage.setItem('authToken', data.token);
-                //const player : Player = data.user;
-                //Router.push('/menu')
+
             }else{
                 console.log("Há e van");
             }

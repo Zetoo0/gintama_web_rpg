@@ -1,12 +1,12 @@
 import { FC, useState } from 'react';
-import styles from './profile.module.css';
+import styles from './odd_job.module.css';
 import Item from "../Item";
 import { Player } from "../Player";
 import { usePlayer } from "../mostmar_valami_tenyleg";
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { Job } from './job';
 import { MinigameType } from '../MinigameType';
-
+import Link from 'next/link';
 interface OddJobProps {
   joblist: Job[];
 }
@@ -28,8 +28,10 @@ const OddJob: FC<OddJobProps> = ({ joblist }) => {
   }
 
   const showInfo = (job : Job) => {
+    if(!info) setInfo(true);
     setInfoJob(job);
-    setInfo(!info);
+    console.log("New info job: ", job.job_name);
+    //setInfo(!info);
   }
 
   return (
@@ -41,7 +43,9 @@ const OddJob: FC<OddJobProps> = ({ joblist }) => {
                 <p>{job.quest_giver.character_name}</p>
                 <p>{job.reward.toString()}</p>
                 <p>{job.job_enemies}</p>
-                <button onClick={() => acceptJob(job)}>Accept</button>
+                <Link href={"/minigame"}>
+                  <button onClick={() => acceptJob(job)}>Accept</button>
+                </Link>
                 <button onClick={() => showInfo(job)}>Show</button>
             </div>
 

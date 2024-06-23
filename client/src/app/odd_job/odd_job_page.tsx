@@ -1,6 +1,6 @@
 'use client'
 import { FC, useEffect, useState } from 'react';
-import Profile from './profile';
+import Profile from '../profile/profile';
 import Item from "../Item";
 import {Player} from "../Player";
 import { useRouter, useParams, useSearchParams } from 'next/navigation';

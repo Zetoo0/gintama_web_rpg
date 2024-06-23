@@ -1,24 +1,27 @@
+'use client'
 import { FC, useEffect, useState } from 'react';
-import Profile from './profile';
+import Profile from '../profile/profile';
 import Item from "../Item";
 import {Player} from "../Player";
 import { JobEnemy } from '../JobEnemy';
 import { MinigameType } from '../MinigameType';
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
-import { Job } from './job';
-import OddJob from './odd_job';
+import { Job } from '../odd_job/job';
+import OddJob from '../odd_job/odd_job';
 import { KeyboardEvent, KeyboardEventHandler } from 'react';
 import { start } from 'repl';
-import { count } from 'console';
+import { count } from 'console';    
+import Link from 'next/link';
 
 
 interface MinigameProps{
     /*enemyList: JobEnemy[];
     player : Player;*/
     minigameType : MinigameType;
+    enemy : JobEnemy[] | null;
 }
 
-const MinigamePage: FC<MinigameProps> = ({/*enemyList, player,*/ minigameType}) => {
+const MinigamePage: FC<MinigameProps> = ({/*enemyList, player,*/ minigameType, enemy}) => {
     const [keyDowned,setKeyDowned] = useState<string>("");
     const [timer,setTimer]  = useState<number>(0);
     const [isWin,setIsWin] = useState<boolean | null>(null);
@@ -52,14 +55,14 @@ const MinigamePage: FC<MinigameProps> = ({/*enemyList, player,*/ minigameType}) 
         }
 
     }
-    
+
     useEffect(() => {
         let interval:any;
         if(clickOnMe && !chanceGone && timer > 0){
             interval = setInterval(() => {
                 setTimer(timer - 1);
                 console.log(timer);
-            },1000)
+            },133)
 
             return () => clearInterval(interval);
         }
@@ -82,11 +85,15 @@ const MinigamePage: FC<MinigameProps> = ({/*enemyList, player,*/ minigameType}) 
                         }
                         {
                             (chanceGone || timer <= 0) && clickOnMe && !isWin &&(
-                                <p>Game over!</p>
+                                <Link href={"/odd_job"}>
+                                    <p>You lost! Try it again later:/</p>
+                                </Link>
                             )
                         }{
                             chanceGone && isWin && (
-                                <p>You won beaaatch</p>
+                                <Link href={"/fight"}>
+                                    <button>Yeah win! You can go to fight</button>
+                                </Link>
                             )
                         }
                     </div>

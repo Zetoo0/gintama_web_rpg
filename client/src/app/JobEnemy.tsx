@@ -8,4 +8,5 @@ export interface JobEnemy{
     job_name : string;
     enemy_name : string;
     stats : EnemyStat;
+    description : string;
 }
